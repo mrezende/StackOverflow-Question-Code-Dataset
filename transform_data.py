@@ -1,9 +1,12 @@
 import pickle
 import sys
+from keras.preprocessing.text import Tokenizer
+from sklearn.model_selection import train_test_split
+import json
+import random
 sys.path.append("data_processing/codenn/src")
 from data_processing.code_processing import *
 
-from keras.preprocessing.text import Tokenizer
 
 
 iid_labeled = pickle.load(open('annotation_tool/crowd_sourcing/python_annotator/all_agreed_iid_to_label.pickle','rb'))
@@ -42,11 +45,28 @@ for key, label in iid_labeled.items():
         else:
             qid_code_tokenized[qid] = [' '.join(tokenized_code[key])]
 
-training_set = []
+sof_data = []
 for qid, answers in qid_code_tokenized.items():
     sample = {}
     sample['question'] = tokenizer.texts_to_sequences([qid_to_title[qid]])[0]
     sample['answers'] = tokenizer.texts_to_sequences(answers)
-    training_set.append(sample)
+    sof_data.append(sample)
 
+
+train, test = train_test_split(sof_data, test_size = 0.33, random_state=20)
+
+answers = []
+for key, label in iid_labeled.items():
+    answers.append(' '.join(tokenized_code[key]))
+
+
+sample_answers = tokenizer.texts_to_sequences(answers)
+
+test_data = []
+for q in test:
+    sample = {}
+    sample['question'] = q['question']
+    sample['good'] = q['answers']
+    sample['bad'] = random.sample(sample_answers, 150)
+    test_data.append(sample)
 
