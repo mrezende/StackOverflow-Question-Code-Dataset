@@ -67,6 +67,10 @@ for key, label in iid_labeled.items():
 
 sample_answers = tokenizer.texts_to_sequences(answers)
 
+with open('data/answers.json', 'w') as write_file:
+    json.dump(sample_answers, write_file)
+
+
 test_data = []
 for q in test:
     sample = {}
