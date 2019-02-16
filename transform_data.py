@@ -25,6 +25,8 @@ question_samples = [qid_to_title[qid] for qid, code_idx in iid_labeled]
 
 samples = code_samples + question_samples
 
+with open('data/samples_for_tokenizer.json', 'w') as write_file:
+    json.dump(samples, write_file)
 
 tokenizer = Tokenizer()
 
@@ -55,6 +57,9 @@ for qid, answers in qid_code_tokenized.items():
 
 train, test = train_test_split(sof_data, test_size = 0.33, random_state=20)
 
+with open('data/train.json', 'w') as write_file:
+    json.dump(train, write_file)
+
 answers = []
 for key, label in iid_labeled.items():
     answers.append(' '.join(tokenized_code[key]))
@@ -69,4 +74,9 @@ for q in test:
     sample['good'] = q['answers']
     sample['bad'] = random.sample(sample_answers, 150)
     test_data.append(sample)
+
+
+with open('data/test.json', 'w') as write_file:
+    json.dump(test_data, write_file)
+
 
