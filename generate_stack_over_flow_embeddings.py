@@ -30,16 +30,20 @@ samples = code_samples + question_samples
 
 samples_preprocessed = [gensim.utils.simple_preprocess(s, deacc=True) for s in samples]
 
+tokenizer = Tokenizer()
 
+tokenizer.fit_on_texts(samples)
+
+word_index = tokenizer.word_index
 
 # run model
 size = 100
-model = Word2Vec(samples_preprocessed, size=size, min_count=5, window=5, sg=1)
-weights = model.syn0
-d = dict([(k, v.index) for k, v in model.vocab.items()])
-emb = np.zeros(shape=(len(vocab)+1, args.size), dtype='float32')
+model = Word2Vec(samples_preprocessed, size=size, min_count=5, window=5, sg=1, iter=15)
+weights = model.wv.syn0
+d = dict([(k, v.index) for k, v in model.wv.vocab.items()])
+emb = np.zeros(shape=(len(word_index)+1, size), dtype='float32')
 
-for i, w in vocab.items():
+for w, i in word_index.items():
     if w not in d: continue
     emb[i, :] = weights[d[w], :]
 
