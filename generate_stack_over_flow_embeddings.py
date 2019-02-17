@@ -4,6 +4,7 @@ from keras.preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
 import json
 import gensim
+from gensim.models import Word2Vec
 import random
 import numpy as np
 sys.path.append("data_processing/codenn/src")
