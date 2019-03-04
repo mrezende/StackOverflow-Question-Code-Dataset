@@ -1,14 +1,18 @@
+import matplotlib
+matplotlib.use('Agg')
 import pickle
 import sys
 from keras.preprocessing.text import Tokenizer
 from sklearn.model_selection import train_test_split
 import json
-import gensim
 from gensim.models import Word2Vec
 import random
 import numpy as np
 sys.path.append("data_processing/codenn/src")
 from data_processing.code_processing import *
+from keras.preprocessing.text import text_to_word_sequence
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
 
 
 
@@ -28,7 +32,7 @@ question_samples = [qid_to_title[qid] for qid, code_idx in iid_labeled]
 
 samples = code_samples + question_samples
 
-samples_preprocessed = [gensim.utils.simple_preprocess(s, deacc=True) for s in samples]
+samples_preprocessed = [text_to_word_sequence(s) for s in samples]
 
 tokenizer = Tokenizer()
 
@@ -38,7 +42,7 @@ word_index = tokenizer.word_index
 
 # run model
 size = 100
-model = Word2Vec(samples_preprocessed, size=size, min_count=5, window=5, sg=1, iter=15)
+model = Word2Vec(samples_preprocessed, size=size, min_count=1, window=5, sg=1, iter=15)
 weights = model.wv.syn0
 d = dict([(k, v.index) for k, v in model.wv.vocab.items()])
 emb = np.zeros(shape=(len(word_index)+1, size), dtype='float32')
@@ -46,6 +50,37 @@ emb = np.zeros(shape=(len(word_index)+1, size), dtype='float32')
 for w, i in word_index.items():
     if w not in d: continue
     emb[i, :] = weights[d[w], :]
+
+word_vectors = model.wv
+
+wanted_words = []
+count = 0
+for word in word_vectors.vocab:
+    if count<150:
+        wanted_words.append(word)
+        count += 1
+    else:
+        break
+
+wanted_vocab = dict((k, word_vectors.vocab[k]) for k in wanted_words if k in word_vectors.vocab)
+
+
+X = model[wanted_vocab] # X is an array of word vectors, each vector containing 150 tokens
+tsne_model = TSNE(perplexity=40, n_components=2, init="pca", n_iter=5000, random_state=23)
+Y = tsne_model.fit_transform(X)
+
+
+fig, ax = plt.subplots(figsize=(20,10))
+ax.scatter(Y[:, 0], Y[:, 1])
+words = list(wanted_vocab)
+for i, word in enumerate(words):
+    plt.annotate(word, xy=(Y[i, 0], Y[i, 1]))
+
+
+ax.set_yticklabels([]) #Hide ticks
+ax.set_xticklabels([]) #Hide ticks
+
+plt.savefig('tsne-output.png')
 
 np.save(open('word2vec_%d_dim.embeddings' % size, 'wb'), emb)
 
