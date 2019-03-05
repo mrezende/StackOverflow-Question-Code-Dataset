@@ -128,8 +128,8 @@ df2 = pd.DataFrame({"questions": questions, "question_length": question_length,
                    "at_least_one_correct_answer": at_least_one_correct_answer})
 
 
-df1.to_csv("python_annotated_dataset.csv")
-df2.to_csv("python_annotated_dataset_tokenized.csv")
+df1.to_csv("python_annotated_dataset.csv", encoding='utf-8')
+df2.to_csv("python_annotated_dataset_tokenized.csv", encoding='utf-8')
 
 # export all multi-code answer posts
 
@@ -169,8 +169,8 @@ df4 = pd.DataFrame({"questions": questions, "question_length": question_length,
                     "at_least_one_correct_answer": at_least_one_correct_answer})
 
 
-df3.to_csv('python_all_multi_question_code_pair.csv')
-df4.to_csv('python_all_multi_question_code_pair_tokenized.csv')
+df3.to_csv('python_all_multi_question_code_pair.csv', encoding='utf-8')
+df4.to_csv('python_all_multi_question_code_pair_tokenized.csv', encoding='utf-8')
 
 
 
