@@ -6,6 +6,8 @@ import json
 import random
 sys.path.append("data_processing/codenn/src")
 from data_processing.code_processing import *
+import pandas as pd
+from keras.preprocessing.text import text_to_word_sequence
 
 
 
@@ -82,5 +84,96 @@ for q in test:
 
 with open('data/test.json', 'w') as write_file:
     json.dump(test_data, write_file)
+
+
+# export to excel
+
+questions_with_correct_answer = [key for key, value in iid_labeled.items() if value == 1]
+
+questions, question_length, question_number_of_words,\
+code_snippets, code_snippet_length, code_snippet_number_of_words, labels,\
+    at_least_one_correct_answer = \
+                                   [qid_to_title[qid] for qid, label in iid_labeled],\
+                                   [len(qid_to_title[qid]) for qid, label in iid_labeled],\
+                                   [len(text_to_word_sequence(qid_to_title[qid])) for qid, label in iid_labeled],\
+                                   [q_code_snippet[key] for key in iid_labeled], \
+                                   [len(q_code_snippet[key]) for key in iid_labeled], \
+                                   [len(text_to_word_sequence(q_code_snippet[key])) for key in iid_labeled], \
+                                   [label for key, label in iid_labeled.items()], \
+                                   [1 if key in questions_with_correct_answer else 0 for key in iid_labeled]
+
+
+df1 = pd.DataFrame({"questions": questions, "question_length": question_length,
+                   "question_number_of_words": question_number_of_words,
+                   "code_snippets": code_snippets, "code_snippet_length": code_snippet_length,
+                   "code_snippet_number_of_words": code_snippet_number_of_words,
+                   "labels": labels,
+                   "at_least_one_correct_answer": at_least_one_correct_answer})
+
+
+code_snippets_tokenized, code_snippet_tokenized_length, code_snippet_tokenized_number_of_words = \
+    [' '.join(tokenized_code[key]) for key in iid_labeled], \
+    [len(' '.join(tokenized_code[key])) for key in iid_labeled], \
+    [len(text_to_word_sequence(' '.join(tokenized_code[key]))) for key in iid_labeled]
+
+
+df2 = pd.DataFrame({"questions": questions, "question_length": question_length,
+                   "question_number_of_words": question_number_of_words,
+                   "code_snippets_tokenized": code_snippets_tokenized,
+                    "code_snippet_tokenized_length": code_snippet_tokenized_length,
+                   "code_snippet_tokenized_number_of_words": code_snippet_tokenized_number_of_words,
+                   "labels": labels,
+                   "at_least_one_correct_answer": at_least_one_correct_answer})
+
+with pd.ExcelWriter('python_annotated_dataset.xlsx') as writer:
+    df1.to_excel(writer, sheet_name='Question_Code_Pair')
+    df2.to_excel(writer, sheet_name='Question_Code_Tokenized_Pair')
+
+# export all multi-code answer posts
+
+questions, question_length, question_number_of_words,\
+code_snippets, code_snippet_length, code_snippet_number_of_words,\
+    labels, at_least_one_correct_answer = \
+                                   [qid_to_title[qid] for qid, code in q_code_snippet],\
+                                   [len(qid_to_title[qid]) for qid, code in q_code_snippet],\
+                                   [len(text_to_word_sequence(qid_to_title[qid])) for qid, code in q_code_snippet],\
+                                   [q_code_snippet[key] for key in q_code_snippet], \
+                                   [len(q_code_snippet[key]) for key in q_code_snippet], \
+                                   [len(text_to_word_sequence(q_code_snippet[key])) for key in q_code_snippet], \
+                                   [iid_labeled[key] if key in iid_labeled else "N/A" for key in q_code_snippet], \
+                                   [1 if key in questions_with_correct_answer else 0 for key in q_code_snippet]
+
+
+df3 = pd.DataFrame({"questions": questions, "question_length": question_length,
+                   "question_number_of_words": question_number_of_words,
+                   "code_snippets": code_snippets, "code_snippet_length": code_snippet_length,
+                   "code_snippet_number_of_words": code_snippet_number_of_words,
+                   "labels": labels,
+                    "at_least_one_correct_answer": at_least_one_correct_answer})
+
+
+code_snippets_tokenized, code_snippet_tokenized_length, code_snippet_tokenized_number_of_words = \
+    [' '.join(tokenized_code[key]) for key in q_code_snippet], \
+    [len(' '.join(tokenized_code[key])) for key in q_code_snippet], \
+    [len(text_to_word_sequence(' '.join(tokenized_code[key]))) for key in q_code_snippet]
+
+
+df4 = pd.DataFrame({"questions": questions, "question_length": question_length,
+                   "question_number_of_words": question_number_of_words,
+                   "code_snippets_tokenized": code_snippets_tokenized,
+                    "code_snippet_tokenized_length": code_snippet_tokenized_length,
+                   "code_snippet_tokenized_number_of_words": code_snippet_tokenized_number_of_words,
+                   "labels": labels,
+                    "at_least_one_correct_answer": at_least_one_correct_answer})
+
+
+with pd.ExcelWriter('python_all_multi_question_code_pair.xlsx') as writer:
+    df3.to_excel(writer, sheet_name='Question_Code_Pair')
+    df4.to_excel(writer, sheet_name='Question_Code_Tokenized_Pair')
+
+
+
+
+
 
 
