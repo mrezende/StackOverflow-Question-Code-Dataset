@@ -21,6 +21,8 @@ qid_code_labeled = dict([(key, q_code_snippet[key]) for key in iid_labeled])
 
 tokenized_code, bool_failed_var, bool_failed_token = tokenize_code_corpus(qid_code_labeled, "python")
 
+all_tokenized_code, all_bool_failed_var, all_bool_failed_token = tokenize_code_corpus(q_code_snippet, "python")
+
 code_samples = [' '.join(tokenized_code[key]) for key in tokenized_code]
 
 question_samples = [qid_to_title[qid] for qid, code_idx in iid_labeled]
@@ -153,9 +155,9 @@ df3 = pd.DataFrame({"questions": questions, "question_length": question_length,
 
 
 code_snippets_tokenized, code_snippet_tokenized_length, code_snippet_tokenized_number_of_words = \
-    [' '.join(tokenized_code[key]) for key in q_code_snippet], \
-    [len(' '.join(tokenized_code[key])) for key in q_code_snippet], \
-    [len(text_to_word_sequence(' '.join(tokenized_code[key]))) for key in q_code_snippet]
+    [' '.join(all_tokenized_code[key]) for key in q_code_snippet], \
+    [len(' '.join(all_tokenized_code[key])) for key in q_code_snippet], \
+    [len(text_to_word_sequence(' '.join(all_tokenized_code[key]))) for key in q_code_snippet]
 
 
 df4 = pd.DataFrame({"questions": questions, "question_length": question_length,
