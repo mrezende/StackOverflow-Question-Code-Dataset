@@ -88,7 +88,7 @@ with open('data/test.json', 'w') as write_file:
     json.dump(test_data, write_file)
 
 
-# export to excel
+# export to csv
 
 questions_with_correct_answer = [key for key, value in iid_labeled.items() if value == 1]
 
