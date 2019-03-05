@@ -127,9 +127,9 @@ df2 = pd.DataFrame({"questions": questions, "question_length": question_length,
                    "labels": labels,
                    "at_least_one_correct_answer": at_least_one_correct_answer})
 
-with pd.ExcelWriter('python_annotated_dataset.xlsx') as writer:
-    df1.to_excel(writer, sheet_name='Question_Code_Pair')
-    df2.to_excel(writer, sheet_name='Question_Code_Tokenized_Pair')
+
+df1.to_csv("python_annotated_dataset.csv")
+df2.to_csv("python_annotated_dataset_tokenized.csv")
 
 # export all multi-code answer posts
 
@@ -169,11 +169,8 @@ df4 = pd.DataFrame({"questions": questions, "question_length": question_length,
                     "at_least_one_correct_answer": at_least_one_correct_answer})
 
 
-with pd.ExcelWriter('python_all_multi_question_code_pair.xlsx') as writer:
-    df3.to_excel(writer, sheet_name='Question_Code_Pair')
-    df4.to_excel(writer, sheet_name='Question_Code_Tokenized_Pair')
-
-
+df3.to_csv('python_all_multi_question_code_pair.csv')
+df4.to_csv('python_all_multi_question_code_pair_tokenized.csv')
 
 
 
