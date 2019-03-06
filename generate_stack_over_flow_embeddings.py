@@ -81,6 +81,7 @@ ax.set_yticklabels([]) #Hide ticks
 ax.set_xticklabels([]) #Hide ticks
 
 plt.savefig('tsne-output.png')
+plt.clf()
 
 np.save(open('word2vec_%d_dim.embeddings' % size, 'wb'), emb)
 
@@ -89,41 +90,45 @@ np.save(open('word2vec_%d_dim.embeddings' % size, 'wb'), emb)
 
 question_length = [len(qid_to_title[qid]) for qid, label in iid_labeled]
 
-bins = 30
-
-plt.hist(question_length, bins=bins)
+plt.hist(question_length, bins='auto')
 plt.title("Question Length")
 plt.savefig('question_length_hist.png')
+plt.clf()
 
 question_number_of_words = [len(text_to_word_sequence(qid_to_title[qid])) for qid, label in iid_labeled]
 
-plt.hist(question_number_of_words, bins=bins)
+plt.hist(question_number_of_words, bins='auto')
 plt.title("Number of Words of Question")
 plt.savefig('question_number_of_words_hist.png')
+plt.clf()
 
 code_snippet_length = [len(q_code_snippet[key]) for key in iid_labeled]
 
-plt.hist(code_snippet_length, bins=bins)
+plt.hist(code_snippet_length, bins='auto')
 plt.title("Code Snippet Length")
 plt.savefig('code_snippet_length_hist.png')
+plt.clf()
 
 code_snippet_number_of_words = [len(text_to_word_sequence(q_code_snippet[key])) for key in iid_labeled]
 
-plt.hist(code_snippet_number_of_words, bins=bins)
+plt.hist(code_snippet_number_of_words, bins='auto')
 plt.title("Number of Words of Code Snippet")
 plt.savefig('code_snippet_number_of_words_hist.png')
+plt.clf()
 
 code_snippet_tokenized_length = [len(' '.join(tokenized_code[key])) for key in iid_labeled]
 
-plt.hist(code_snippet_tokenized_length, bins=bins)
+plt.hist(code_snippet_tokenized_length, bins='auto')
 plt.title("Code Snippet Tokenized Length")
 plt.savefig('code_snippet_tokenized_length_hist.png')
+plt.clf()
 
 code_snippet_tokenized_number_of_words = [len(text_to_word_sequence(' '.join(tokenized_code[key])))
                                           for key in iid_labeled]
 
-plt.hist(code_snippet_tokenized_number_of_words, bins=bins)
+plt.hist(code_snippet_tokenized_number_of_words, bins='auto')
 plt.title("Number of Words of Code Snippet Tokenized")
 plt.savefig('code_snippet_tokenized_number_of_words_hist.png')
+plt.clf()
 
 
