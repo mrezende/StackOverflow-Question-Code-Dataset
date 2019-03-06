@@ -56,7 +56,7 @@ word_vectors = model.wv
 sorted_by_word_count = sorted(tokenizer.word_counts.items(), key=lambda (word, count): count, reverse=True)
 wanted_words = []
 count = 0
-for word, count in sorted_by_word_count:
+for word, freq in sorted_by_word_count:
     if count<200:
         wanted_words.append(word)
         count += 1
