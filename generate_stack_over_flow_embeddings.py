@@ -132,4 +132,22 @@ plt.title("Number of Words of Code Snippet Tokenized")
 plt.savefig('code_snippet_tokenized_number_of_words_hist.png')
 plt.clf()
 
+# generate hist for correct answers per question
+
+qid_code_tokenized = {}
+
+for key, label in iid_labeled.items():
+    qid, code_idx = key
+    if label == 1:
+        if qid in qid_code_tokenized:
+            qid_code_tokenized[qid] += 1
+        else:
+            qid_code_tokenized[qid] = 1
+
+correct_answers_per_question = [value for key, value in qid_code_tokenized.items()]
+plt.hist(correct_answers_per_question, bins='auto')
+plt.title("Number of Correct Answers per Question")
+plt.savefig('correct_answers_per_question_hist.png')
+plt.clf()
+
 
