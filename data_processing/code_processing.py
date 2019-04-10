@@ -12,7 +12,6 @@ from nltk.tokenize import wordpunct_tokenize
 import pdb
 import os
 
-sys.path.append("data_processing/codenn/src")
 from sql.SqlTemplate import *
 
 
