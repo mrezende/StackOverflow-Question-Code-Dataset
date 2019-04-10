@@ -12,7 +12,7 @@ from nltk.tokenize import wordpunct_tokenize
 import pdb
 import os
 
-from sql.SqlTemplate import *
+from data_processing.codenn.src.sql.SqlTemplate import *
 
 
 PATTERN_VAR_EQUAL = re.compile("(\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)(,\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)*=")
