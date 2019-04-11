@@ -12,9 +12,6 @@ from nltk.tokenize import wordpunct_tokenize
 import pdb
 import os
 
-from data_processing.codenn.src.sql.SqlTemplate import *
-
-
 PATTERN_VAR_EQUAL = re.compile("(\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)(,\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)*=")
 PATTERN_VAR_FOR = re.compile("for\s+[_a-zA-Z][_a-zA-Z0-9]*\s*(,\s*[_a-zA-Z][_a-zA-Z0-9]*)*\s+in")
 
@@ -281,32 +278,7 @@ def tokenize_python_code(code):
 
 
 
-def tokenize_sql_code(code, bool_remove_comment=True):
-  """
-  Best parsing for SQL code snippets.
-  Credit to UW codenn project.
 
-  Args:
-    code: a string, a SQL code snippet.
-
-  Returns:
-    tokens: a list of tokens, where columns and tables are replaced with special token + id.
-
-  """
-  query = SqlTemplate(code, regex=True)
-  typedCode = query.parseSql()
-  tokens = [re.sub('\s+', ' ', x.strip()) for x in typedCode]
-
-  if bool_remove_comment:
-    tokens_remove_comment = []
-    for token in tokens:
-      if token[0:2] == "--":
-        pass
-      else:
-        tokens_remove_comment.append(token)
-    tokens = tokens_remove_comment
-
-  return tokens, 0, 0
 
 def tokenize_code_corpus(qid_to_code, pl):
   """ Tokenizing a code snippet into a list of tokens.
@@ -334,8 +306,6 @@ def tokenize_code_corpus(qid_to_code, pl):
     else:
       if pl == "python":
         tokenized_code, bool_failed_var, bool_failed_token = tokenize_python_code(code)
-      elif pl == "sql":
-        tokenized_code, bool_failed_var, bool_failed_token = tokenize_sql_code(code)
       else:
         raise Exception("Invalid programming language! (Support python and sql only.)")
 
