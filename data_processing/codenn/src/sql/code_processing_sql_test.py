@@ -363,25 +363,25 @@ def main():
           "df.apply(lambda x: x.astype('category'))       \nOut[10]: \n   A  B\n0  a  f\n1  a  "
           "f\n2  b  g\n3  b  h\n4  c  h\n5  d  e\n\nIn [11]: df.apply(lambda x:"
           " x.astype('category')).dtypes\nOut[11]: \nA    category\nB    category\ndtype: object\n"}
-    # code_corpus = {
-    #   "1": u'| ID | COLOUR |\n|----|--------|\n|  1 |   Blue |\n|  4 |  Green |\n|  '
-    #                     u'5 | Orange |\n|  6 |   Teal |\n|  3 | Yellow |\n|  2 |    Red |\n',
-    #                "2": u'Contacts\n----------------------------------\nID          AuditLogID  CreatedOn\n'
-    #                     u'----------- ----------- ----------\n10          1           2015-01-02\n11          3'
-    #                     u'           2015-05-06\n\nAddresses\n----------------------------------\nID          '
-    #                     u'AuditLogID  CreatedOn\n----------- ----------- ----------\n20          4           '
-    #                     u'2014-02-01\n21          5           2010-01-01\n\nItems\n----------------------------------\n'
-    #                     u'ID          AuditLogID  CreatedOn\n----------- ----------- ----------\n30          2           '
-    #                     u'2015-03-04\n31          6           2011-03-04\n',
-    #                "3": u'ID      STATUS  CONVERSATION_ID   MESSAGE_ID    DATE_CREATED\n3         2         '
-    #                     u'2                95         May, 05 2012 \n2         2         1                87         '
-    #                     u'March, 03 2012 \n',
-    #   "4": "INSERT INTO tournTypes VALUES\n(1,2),\n(1,3),\n(2,3),\n(3,1)\n\nINSERT INTO leagueTypes VALUES\n(16,2,0), -- 16 teams, 2 divisions, teams only play within own division\n(8,1,0),\n(28,4,1)\n\nINSERT INTO playoffTypes VALUES\n(8,0), -- 8 teams, single elimination\n(4,0),\n(8,1)\n\nINSERT INTO Schedule VALUES\n('Champions league','2015-12-10','2016-02-10',1),\n('Rec league','2015-11-30','2016-03-04-,2)\n",
-    #   "5": u'$videos = Carousel::find(2)->videos; //finds all videos associated with carousel having id of 2\n\nreturn $videos;\n',
-    #   "6": u" SQL> create table mytbl (data_col varchar2(200));\n Table created\n SQL> insert into mytbl values('\u5728\u804c'); \n 1 row inserted.\n SQL> commit;\n Commit complete.\n SQL> select * from mytbl where data_col like '%\u5728\u804c%';\n DATA_COL                                                                                                                                                                                               \n -----------\n \u5728\u804c \n\n SQL> SELECT * FROM nls_database_parameters where parameter='NLS_CHARACTERSET';\n PARAMETER                      VALUE                                  \n ------------------------------ ----------------------------------------\n NLS_CHARACTERSET               AL32UTF8   \n",
-    #   "7": "--test testtest2 test2"
-    #   }
-    tokenized_code, bool_failed_var, bool_failed_token = tokenize_code_corpus(code_corpus, "python")
+    code_corpus = {
+      "1": u'| ID | COLOUR |\n|----|--------|\n|  1 |   Blue |\n|  4 |  Green |\n|  '
+                        u'5 | Orange |\n|  6 |   Teal |\n|  3 | Yellow |\n|  2 |    Red |\n',
+                   "2": u'Contacts\n----------------------------------\nID          AuditLogID  CreatedOn\n'
+                        u'----------- ----------- ----------\n10          1           2015-01-02\n11          3'
+                        u'           2015-05-06\n\nAddresses\n----------------------------------\nID          '
+                        u'AuditLogID  CreatedOn\n----------- ----------- ----------\n20          4           '
+                        u'2014-02-01\n21          5           2010-01-01\n\nItems\n----------------------------------\n'
+                        u'ID          AuditLogID  CreatedOn\n----------- ----------- ----------\n30          2           '
+                        u'2015-03-04\n31          6           2011-03-04\n',
+                   "3": u'ID      STATUS  CONVERSATION_ID   MESSAGE_ID    DATE_CREATED\n3         2         '
+                        u'2                95         May, 05 2012 \n2         2         1                87         '
+                        u'March, 03 2012 \n',
+      "4": "INSERT INTO tournTypes VALUES\n(1,2),\n(1,3),\n(2,3),\n(3,1)\n\nINSERT INTO leagueTypes VALUES\n(16,2,0), -- 16 teams, 2 divisions, teams only play within own division\n(8,1,0),\n(28,4,1)\n\nINSERT INTO playoffTypes VALUES\n(8,0), -- 8 teams, single elimination\n(4,0),\n(8,1)\n\nINSERT INTO Schedule VALUES\n('Champions league','2015-12-10','2016-02-10',1),\n('Rec league','2015-11-30','2016-03-04-,2)\n",
+      "5": u'$videos = Carousel::find(2)->videos; //finds all videos associated with carousel having id of 2\n\nreturn $videos;\n',
+      "6": u" SQL> create table mytbl (data_col varchar2(200));\n Table created\n SQL> insert into mytbl values('\u5728\u804c'); \n 1 row inserted.\n SQL> commit;\n Commit complete.\n SQL> select * from mytbl where data_col like '%\u5728\u804c%';\n DATA_COL                                                                                                                                                                                               \n -----------\n \u5728\u804c \n\n SQL> SELECT * FROM nls_database_parameters where parameter='NLS_CHARACTERSET';\n PARAMETER                      VALUE                                  \n ------------------------------ ----------------------------------------\n NLS_CHARACTERSET               AL32UTF8   \n",
+      "7": "--test testtest2 test2"
+      }
+    tokenized_code, bool_failed_var, bool_failed_token = tokenize_code_corpus(code_corpus, "sql")
     print(tokenized_code)
 
   test_tokenize_code_corpus()
