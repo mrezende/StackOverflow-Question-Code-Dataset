@@ -11,8 +11,8 @@ from nltk.tokenize import wordpunct_tokenize
 
 import pdb
 
-sys.path.append("codenn/src")
-from sql.SqlTemplate import *
+#sys.path.append("codenn/src")
+from codenn.src.sql.SqlTemplate import *
 
 
 PATTERN_VAR_EQUAL = re.compile("(\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)(,\s*[_a-zA-Z][_a-zA-Z0-9]*\s*)*=")
