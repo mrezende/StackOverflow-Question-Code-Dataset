@@ -114,7 +114,7 @@ class SqlTemplate:
     if isinstance(tok, sqlparse.sql.TokenList):
       tmpChildren = []
       for c in tok.tokens:
-        if not c.is_whitespace():
+        if isinstance(c, sqlparse.sql.Token) and not c.is_whitespace():
           tmpChildren.append(c)
 
       tok.tokens = tmpChildren
