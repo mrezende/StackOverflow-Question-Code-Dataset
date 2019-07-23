@@ -1,5 +1,5 @@
 import sqlparse
-from sql.ParseTypes import *
+from ParseTypes import *
 import pdb
 import re
 from regexp_tokenizer import tokenizeRegex
