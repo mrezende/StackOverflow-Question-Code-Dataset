@@ -12,6 +12,7 @@
 
 class _TokenType(tuple):
     parent = None
+    pass
 
     def split(self):
         buf = []
