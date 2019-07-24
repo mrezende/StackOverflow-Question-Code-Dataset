@@ -12,7 +12,6 @@
 
 class _TokenType(tuple):
     parent = None
-    pass
 
     def split(self):
         buf = []
@@ -39,6 +38,8 @@ class _TokenType(tuple):
 
     def __repr__(self):
         return 'Token' + (self and '.' or '') + '.'.join(self)
+    
+    pass
 
 
 Token = _TokenType()
