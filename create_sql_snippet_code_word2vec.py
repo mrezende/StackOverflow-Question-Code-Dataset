@@ -8,7 +8,7 @@ from gensim.models import Word2Vec
 import random
 import numpy as np
 import os
-from data_processing.code_processing_sql import *
+from data_processing.code_processing_original import *
 from keras.preprocessing.text import text_to_word_sequence
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
