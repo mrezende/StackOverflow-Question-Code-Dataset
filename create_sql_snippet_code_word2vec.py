@@ -43,11 +43,11 @@ qid_to_title = pickle.load(open('annotation_tool/data/code_solution_labeled_data
 
 qid_code_labeled = dict([(key, q_code_snippet[key]) for key in iid_labeled])
 
-tokenized_code, bool_failed_var, bool_failed_token = tokenize_code_corpus(qid_code_labeled, "sql")
+#tokenized_code, bool_failed_var, bool_failed_token = tokenize_code_corpus(qid_code_labeled, "sql")
 
-code_samples = [' '.join(tokenized_code[key]) for key in tokenized_code]
+code_samples = [' '.join(tokenized_code[key]) for key in iid_labeled]
 
-question_samples = [qid_to_title[qid] for qid, code_idx in iid_labeled]
+question_samples = [qid_to_title[key] for key in iid_labeled]
 
 samples = code_samples + question_samples
 
